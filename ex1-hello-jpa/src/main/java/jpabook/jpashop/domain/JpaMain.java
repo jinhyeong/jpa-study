@@ -1,10 +1,9 @@
-package hellojpa;
+package jpabook.jpashop.domain;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class JpaMain {
 	public static void main(String[] args) {
@@ -15,14 +14,23 @@ public class JpaMain {
 
 		//		Member member = em.find(Member.class, 1L);
 
-		List<Member> result = em.createQuery("select m from Member as m", Member.class)
-				.setFirstResult(5)
-				.setMaxResults(8)
-				.getResultList();
+		try {
+//			List<Member> result = em.createQuery("select m from Member as m", Member.class)
+//					.setFirstResult(5)
+//					.setMaxResults(8)
+//					.getResultList();
+			Member member = new Member();
+			member.setId(100L);
+			member.setName("HelloAA");
+		} catch (Exception e) {
+			transaction.rollback();
+		} finally {
+			em.close();
+
+		}
 
 		transaction.commit();
 
-		em.close();
 		emf.close();
 	}
 }
