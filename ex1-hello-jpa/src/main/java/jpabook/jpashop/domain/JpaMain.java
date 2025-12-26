@@ -7,30 +7,21 @@ import javax.persistence.Persistence;
 
 public class JpaMain {
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction transaction = em.getTransaction();
-		transaction.begin();
-
-		//		Member member = em.find(Member.class, 1L);
-
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("hello");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		
 		try {
-//			List<Member> result = em.createQuery("select m from Member as m", Member.class)
-//					.setFirstResult(5)
-//					.setMaxResults(8)
-//					.getResultList();
-			Member member = new Member();
-			member.setId(100L);
-			member.setName("HelloAA");
+			transaction.begin();
+			// logic
+			transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
 		} finally {
-			em.close();
-
+			entityManager.close();
 		}
+		
+		entityManagerFactory.close();
 
-		transaction.commit();
-
-		emf.close();
 	}
 }
